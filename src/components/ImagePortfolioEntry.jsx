@@ -2,6 +2,8 @@ import { ArrowUpRight, Folder, Image as ImageIcon, Lightbulb, Star } from 'lucid
 import FloppyDisk3D from './FloppyDisk3D.jsx';
 
 function ImagePortfolioEntry() {
+  const imagePortfolioUrl = `${import.meta.env.BASE_URL}image-portfolio`;
+
   return (
     <section className="image-portfolio-entry" aria-label="Image Portfolio">
       <div className="shell image-portfolio-entry-inner">
@@ -28,7 +30,7 @@ function ImagePortfolioEntry() {
           </div>
         </div>
 
-        <a className="floppy-link" href="/image-portfolio" aria-label="View Image Portfolio">
+        <a className="floppy-link" href={imagePortfolioUrl} aria-label="View Image Portfolio">
           <span className="floppy-shadow" />
           <span className="portfolio-scrap scrap-typo" aria-hidden="true">
             <strong>

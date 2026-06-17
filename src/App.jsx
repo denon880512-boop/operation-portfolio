@@ -14,7 +14,9 @@ import Lightbox from './components/Lightbox.jsx';
 
 function App() {
   const [preview, setPreview] = useState(null);
-  const isImagePortfolioPage = window.location.pathname === '/image-portfolio';
+  const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+  const pagePath = window.location.pathname.replace(basePath, '') || '/';
+  const isImagePortfolioPage = pagePath === '/image-portfolio';
 
   useEffect(() => {
     if ('scrollRestoration' in window.history) {

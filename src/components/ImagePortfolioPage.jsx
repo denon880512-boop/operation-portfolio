@@ -40,10 +40,12 @@ const works = [
 ];
 
 function ImagePortfolioPage() {
+  const homeUrl = import.meta.env.BASE_URL;
+
   return (
     <main className="image-portfolio-page">
       <header className="portfolio-page-top shell">
-        <a className="portfolio-back" href="/">
+        <a className="portfolio-back" href={homeUrl}>
           <ArrowLeft size={16} />
           返回首页
         </a>
