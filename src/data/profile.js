@@ -3,10 +3,13 @@ import resumeImage from '../assets/resume-about.webp';
 import heroVideo from '../assets/hero-cartoon.mp4';
 import heroPoster from '../assets/hero-cartoon-poster.webp';
 import dogVideo from '../assets/ai-dog-video.mp4';
+import dogVideoPreview from '../assets/ai-dog-video-preview.mp4';
 import dogVideoPoster from '../assets/ai-dog-video-poster.webp';
 import geoPromoVideo from '../assets/ai-geo-promo-video.mp4';
+import geoPromoVideoPreview from '../assets/ai-geo-promo-video-preview.mp4';
 import geoPromoVideoPoster from '../assets/ai-geo-promo-video-poster.webp';
 import redpacketVideo from '../assets/ai-redpacket-video.mp4';
+import redpacketVideoPreview from '../assets/ai-redpacket-video-preview.mp4';
 import redpacketVideoPoster from '../assets/ai-redpacket-video-poster.webp';
 import jzzishaImage from '../assets/brand-jzzisha.webp';
 import xiangxinImage from '../assets/brand-xiangxin.webp';
@@ -31,10 +34,13 @@ export const profile = {
     heroVideo,
     heroPoster,
     dogVideo,
+    dogVideoPreview,
     dogVideoPoster,
     geoPromoVideo,
+    geoPromoVideoPreview,
     geoPromoVideoPoster,
     redpacketVideo,
+    redpacketVideoPreview,
     redpacketVideoPoster,
     jzzishaImage,
     xiangxinImage,
@@ -167,6 +173,7 @@ export const portfolioItems = [
     label: 'AI video showcase',
     type: 'video',
     video: dogVideo,
+    previewVideo: dogVideoPreview,
     poster: dogVideoPoster,
     description:
       '一只不会汪汪的狗，后面为了救小主人终于发出了汪汪叫。',
@@ -177,6 +184,7 @@ export const portfolioItems = [
     label: 'AI video showcase',
     type: 'video',
     video: geoPromoVideo,
+    previewVideo: geoPromoVideoPreview,
     poster: geoPromoVideoPoster,
     description: 'GEO宣传视频。',
   },
@@ -186,6 +194,7 @@ export const portfolioItems = [
     label: 'AI video showcase',
     type: 'video',
     video: redpacketVideo,
+    previewVideo: redpacketVideoPreview,
     poster: redpacketVideoPoster,
     description:
       '过年期间发现紫砂壶在红包搜索类目中缺位，于是抓住机会制作过年红包和元宵节红包。活动期间曝光 7万+，通过红包进入私域百人。',

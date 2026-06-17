@@ -8,7 +8,11 @@ function ProjectVisual({ project, onPreview }) {
     return (
       <div
         className={`project-gallery ${
-          project.layout === 'phone-screens' ? 'project-gallery-phone' : ''
+          project.layout === 'phone-cutout'
+            ? 'project-gallery-phone'
+            : project.layout === 'phone-screens'
+              ? 'project-gallery-tall'
+              : ''
         }`}
       >
         {project.gallery.map((item, galleryIndex) => (
@@ -35,7 +39,9 @@ function ProjectVisual({ project, onPreview }) {
   return (
     <button
       type="button"
-      className="project-image"
+      className={`project-image ${
+        project.layout === 'phone-cutout' ? 'project-image-phone' : ''
+      }`}
       onClick={() =>
         onPreview({
           type: 'image',
@@ -78,7 +84,9 @@ function TiltProjectCard({ project, index, onPreview }) {
   return (
     <motion.article
       ref={cardRef}
-      className={`project-card ${project.gallery ? 'project-card-gallery' : ''}`}
+      className={`project-card ${project.gallery ? 'project-card-gallery' : ''} ${
+        project.layout === 'phone-cutout' ? 'project-card-phone' : ''
+      }`}
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
       initial={{ opacity: 0, y: 40, filter: 'blur(8px)' }}

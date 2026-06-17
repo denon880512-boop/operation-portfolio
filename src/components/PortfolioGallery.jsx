@@ -1,6 +1,58 @@
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, Eye, PlayCircle } from 'lucide-react';
 import { portfolioItems } from '../data/profile.js';
+
+function LazyVideoPreview({ item, onOpen }) {
+  const rootRef = useRef(null);
+  const videoRef = useRef(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const node = rootRef.current;
+    if (!node) return undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsInView(entry.isIntersecting),
+      { rootMargin: '180px 0px', threshold: 0.28 }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (isInView) {
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+    }
+  }, [isInView]);
+
+  return (
+    <button ref={rootRef} type="button" className="gallery-video-button" onClick={onOpen}>
+      <img src={item.poster} alt={`${item.title}视频封面`} loading="lazy" />
+      {isInView && item.previewVideo ? (
+        <video
+          ref={videoRef}
+          src={item.previewVideo}
+          muted
+          loop
+          playsInline
+          preload="none"
+          aria-hidden="true"
+        />
+      ) : null}
+      <span className="gallery-play-overlay">
+        <PlayCircle size={26} />
+        点击播放完整视频
+      </span>
+    </button>
+  );
+}
 
 function PortfolioGallery({ onPreview }) {
   return (
@@ -49,12 +101,7 @@ function PortfolioGallery({ onPreview }) {
                     </button>
                   )}
                   {item.url && (
-                    <a
-                      className="button button-light"
-                      href={item.url}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
+                    <a className="button button-light" href={item.url} target="_blank" rel="noreferrer">
                       {item.actionLabel || '访问网站'} <ArrowUpRight size={17} />
                     </a>
                   )}
@@ -69,17 +116,10 @@ function PortfolioGallery({ onPreview }) {
                     <img src={item.image} alt={item.title} loading="lazy" />
                   </button>
                 ) : (
-                  <button
-                    type="button"
-                    className="gallery-video-button"
-                    onClick={() => onPreview({ type: 'video', src: item.video, title: item.title })}
-                  >
-                    <img src={item.poster} alt={`${item.title}视频封面`} loading="lazy" />
-                    <span className="gallery-play-overlay">
-                      <PlayCircle size={26} />
-                      点击播放完整视频
-                    </span>
-                  </button>
+                  <LazyVideoPreview
+                    item={item}
+                    onOpen={() => onPreview({ type: 'video', src: item.video, title: item.title })}
+                  />
                 )}
               </div>
             </motion.article>

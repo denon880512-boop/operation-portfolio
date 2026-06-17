@@ -9,6 +9,7 @@ import wechatJzzishaOfficial from '../assets/wechat-jzzisha-official.webp';
 export const projects = [
   {
     id: 'chronosport-xhs',
+    layout: 'phone-cutout',
     name: 'CHRONOSPORT 腕表门店小红书运营',
     type: '社媒运营 / 门店转化 / 私域承接',
     cover: specialWatchAccount,
@@ -34,6 +35,7 @@ export const projects = [
   },
   {
     id: 'panpan-watch-content',
+    layout: 'phone-cutout',
     name: '盼盼每一秒腕表内容账号',
     type: '腕表内容 / 生活方式种草 / 视频笔记',
     cover: panpanAccount,
@@ -57,7 +59,7 @@ export const projects = [
   },
   {
     id: 'chronosport-official-account',
-    layout: 'phone-screens',
+    layout: 'phone-cutout',
     name: 'CHRONOSPORT 公众号内容运营',
     type: '公众号运营 / 小众制表 / 深度腕表资讯',
     cover: wechatChronosportOfficial,
@@ -86,7 +88,7 @@ export const projects = [
   },
   {
     id: 'jzzisha-official-account',
-    layout: 'phone-screens',
+    layout: 'phone-cutout',
     name: '匠制紫砂壶公众号内容运营',
     type: '公众号运营 / 紫砂文化 / 匠人工艺 / 品牌故事',
     cover: wechatJzzishaOfficial,
