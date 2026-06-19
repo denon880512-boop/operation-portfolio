@@ -16,14 +16,17 @@ function Hero() {
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="auto"
         onLoadedData={() => setIsReady(true)}
         onCanPlay={() => setIsReady(true)}
       />
-      <div
+      <img
         className="hero-poster"
-        style={{ backgroundImage: `url(${profile.assets.heroPoster})` }}
+        src={profile.assets.heroPoster}
+        alt=""
         aria-hidden="true"
+        fetchPriority="high"
+        decoding="sync"
       />
       <div className="hero-tint" />
       <div className="hero-inner shell">
