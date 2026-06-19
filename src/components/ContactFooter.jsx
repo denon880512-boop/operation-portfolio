@@ -5,14 +5,14 @@ function ContactFooter() {
   return (
     <footer id="contact" className="contact-section">
       <div className="shell contact-inner">
-        <span className="section-kicker">contact</span>
-        <h2>
-          <span>让用户关系，</span>
-          <span>成为长期资产。</span>
-        </h2>
-        <p>
-          如果你对我的作品和经历感兴趣，可以通过以下方式联系我。
-        </p>
+        <div className="contact-copy">
+          <span className="section-kicker">contact</span>
+          <h2>
+            <span>让用户关系，</span>
+            <span>成为长期资产。</span>
+          </h2>
+          <p>如果你对我的作品和经历感兴趣，可以通过以下方式联系我。</p>
+        </div>
 
         <div className="contact-cards" aria-label="联系方式">
           <div className="contact-card">

@@ -54,7 +54,7 @@ function FloppyDisk3D() {
         metalness: 0,
       });
 
-      const geometry = new THREE.BoxGeometry(2.28, 2.92, 0.12, 1, 1, 1);
+      const geometry = new THREE.BoxGeometry(2.28, 2.92, 0.07, 1, 1, 1);
       const disk = new THREE.Mesh(geometry, [
         edgeMaterial,
         edgeMaterial,
@@ -64,6 +64,7 @@ function FloppyDisk3D() {
         backMaterial,
       ]);
       disk.rotation.x = THREE.MathUtils.degToRad(7);
+      disk.position.y = 0.12;
       scene.add(disk);
 
       const ambient = new THREE.AmbientLight(0xffffff, 1.8);

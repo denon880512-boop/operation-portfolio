@@ -66,7 +66,7 @@ function ImagePortfolioPage() {
       </section>
 
       <section className="shell image-portfolio-grid" aria-label="图片视觉作品">
-        <div className="portfolio-grid-marker">Selected Works · 18</div>
+        <div className="portfolio-grid-marker">Selected Works / 18</div>
         {works.map((work, index) => (
           <article className="portfolio-work" key={`${work.alt}-${index}`}>
             <figure>

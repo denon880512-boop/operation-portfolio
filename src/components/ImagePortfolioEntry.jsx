@@ -24,13 +24,12 @@ function ImagePortfolioEntry() {
               <path d="M154 18 L185 52 L139 61" />
             </svg>
             <span>
-              VIEW IMAGE PORTFOLIO
-              <ArrowUpRight size={20} />
+              点击软盘查看视觉作品集 <ArrowUpRight size={20} />
             </span>
           </div>
         </div>
 
-        <a className="floppy-link" href={imagePortfolioUrl} aria-label="View Image Portfolio">
+        <a className="floppy-link" href={imagePortfolioUrl} aria-label="点击软盘查看视觉作品集">
           <span className="floppy-shadow" />
           <span className="portfolio-scrap scrap-typo" aria-hidden="true">
             <strong>
@@ -63,9 +62,6 @@ function ImagePortfolioEntry() {
             <span>Editorial</span>
           </span>
           <FloppyDisk3D />
-          <span className="floppy-cta">
-            View Image Portfolio <ArrowUpRight size={18} />
-          </span>
         </a>
 
         <div className="entry-notes" aria-hidden="true">
