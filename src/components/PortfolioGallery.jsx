@@ -7,6 +7,7 @@ function LazyVideoPreview({ item, onOpen }) {
   const rootRef = useRef(null);
   const videoRef = useRef(null);
   const [isInView, setIsInView] = useState(false);
+  const [isVideoReady, setIsVideoReady] = useState(false);
 
   useEffect(() => {
     const node = rootRef.current;
@@ -29,6 +30,7 @@ function LazyVideoPreview({ item, onOpen }) {
       video.play().catch(() => {});
     } else {
       video.pause();
+      setIsVideoReady(false);
     }
   }, [isInView]);
 
@@ -38,12 +40,15 @@ function LazyVideoPreview({ item, onOpen }) {
       {isInView && item.previewVideo ? (
         <video
           ref={videoRef}
+          className={isVideoReady ? 'is-ready' : ''}
           src={item.previewVideo}
           muted
           loop
           playsInline
           preload="none"
           aria-hidden="true"
+          onLoadedData={() => setIsVideoReady(true)}
+          onCanPlay={() => setIsVideoReady(true)}
         />
       ) : null}
       <span className="gallery-play-overlay">

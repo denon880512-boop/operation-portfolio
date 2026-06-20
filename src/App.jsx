@@ -15,9 +15,29 @@ import Lightbox from './components/Lightbox.jsx';
 
 function App() {
   const [preview, setPreview] = useState(null);
+  const [route, setRoute] = useState(() => ({
+    pathname: window.location.pathname,
+    hash: window.location.hash,
+  }));
   const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
-  const pagePath = window.location.pathname.replace(basePath, '') || '/';
-  const isImagePortfolioPage = pagePath === '/image-portfolio';
+  const pagePath = route.pathname.replace(basePath, '') || '/';
+  const isImagePortfolioPage = pagePath === '/image-portfolio' || route.hash === '#image-portfolio';
+
+  useEffect(() => {
+    const syncRoute = () => {
+      setRoute({
+        pathname: window.location.pathname,
+        hash: window.location.hash,
+      });
+    };
+
+    window.addEventListener('hashchange', syncRoute);
+    window.addEventListener('popstate', syncRoute);
+    return () => {
+      window.removeEventListener('hashchange', syncRoute);
+      window.removeEventListener('popstate', syncRoute);
+    };
+  }, []);
 
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
@@ -53,7 +73,7 @@ function App() {
       cancelAnimationFrame(frame);
       lenis.destroy();
     };
-  }, []);
+  }, [isImagePortfolioPage]);
 
   return (
     <>

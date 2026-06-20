@@ -1,11 +1,35 @@
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Folder, Image as ImageIcon, Lightbulb, Star } from 'lucide-react';
-import FloppyDisk3D from './FloppyDisk3D.jsx';
+import floppyFront from '../assets/floppy-front.webp';
+import floppyBack from '../assets/floppy-back.webp';
+
+const FloppyDisk3D = lazy(() => import('./FloppyDisk3D.jsx'));
 
 function ImagePortfolioEntry() {
-  const imagePortfolioUrl = `${import.meta.env.BASE_URL}image-portfolio`;
+  const entryRef = useRef(null);
+  const [shouldLoadDisk, setShouldLoadDisk] = useState(false);
+  const imagePortfolioUrl = `${import.meta.env.BASE_URL}#image-portfolio`;
+
+  useEffect(() => {
+    const node = entryRef.current;
+    if (!node) return undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoadDisk(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '520px 0px', threshold: 0.01 }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section className="image-portfolio-entry" aria-label="Image Portfolio">
+    <section ref={entryRef} className="image-portfolio-entry" aria-label="Image Portfolio">
       <div className="shell image-portfolio-entry-inner">
         <div className="entry-copy">
           <span className="entry-kicker">
@@ -61,7 +85,13 @@ function ImagePortfolioEntry() {
             <span>Posters</span>
             <span>Editorial</span>
           </span>
-          <FloppyDisk3D />
+          <span className="floppy-static-preview" aria-hidden="true">
+            <img className="floppy-static-front" src={floppyFront} alt="" loading="lazy" />
+            <img className="floppy-static-back" src={floppyBack} alt="" loading="lazy" />
+          </span>
+          <Suspense fallback={<span className="floppy-loading" aria-hidden="true" />}>
+            {shouldLoadDisk ? <FloppyDisk3D /> : <span className="floppy-loading" aria-hidden="true" />}
+          </Suspense>
         </a>
 
         <div className="entry-notes" aria-hidden="true">
