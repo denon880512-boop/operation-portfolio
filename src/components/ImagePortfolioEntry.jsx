@@ -1,14 +1,35 @@
-import { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Folder, Image as ImageIcon, Lightbulb, Star } from 'lucide-react';
 import floppyFront from '../assets/floppy-front.webp';
 import floppyBack from '../assets/floppy-back.webp';
 
 const FloppyDisk3D = lazy(() => import('./FloppyDisk3D.jsx'));
+const warmFloppyDisk = () => import('./FloppyDisk3D.jsx');
 
 function ImagePortfolioEntry() {
   const entryRef = useRef(null);
   const [shouldLoadDisk, setShouldLoadDisk] = useState(false);
+  const [isDiskReady, setIsDiskReady] = useState(false);
   const imagePortfolioUrl = `${import.meta.env.BASE_URL}#image-portfolio`;
+  const handleDiskReady = useCallback(() => setIsDiskReady(true), []);
+
+  useEffect(() => {
+    const preload = () => {
+      [floppyFront, floppyBack].forEach((source) => {
+        const image = new Image();
+        image.src = source;
+      });
+      warmFloppyDisk();
+    };
+
+    if ('requestIdleCallback' in window) {
+      const idleId = window.requestIdleCallback(preload, { timeout: 2400 });
+      return () => window.cancelIdleCallback(idleId);
+    }
+
+    const timer = window.setTimeout(preload, 1000);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const node = entryRef.current;
@@ -21,7 +42,7 @@ function ImagePortfolioEntry() {
           observer.disconnect();
         }
       },
-      { rootMargin: '520px 0px', threshold: 0.01 }
+      { rootMargin: '720px 0px', threshold: 0.01 }
     );
 
     observer.observe(node);
@@ -53,7 +74,11 @@ function ImagePortfolioEntry() {
           </div>
         </div>
 
-        <a className="floppy-link" href={imagePortfolioUrl} aria-label="点击软盘查看视觉作品集">
+        <a
+          className={`floppy-link ${isDiskReady ? 'is-disk-ready' : ''}`}
+          href={imagePortfolioUrl}
+          aria-label="点击软盘查看视觉作品集"
+        >
           <span className="floppy-shadow" />
           <span className="portfolio-scrap scrap-typo" aria-hidden="true">
             <strong>
@@ -86,11 +111,11 @@ function ImagePortfolioEntry() {
             <span>Editorial</span>
           </span>
           <span className="floppy-static-preview" aria-hidden="true">
-            <img className="floppy-static-front" src={floppyFront} alt="" loading="lazy" />
-            <img className="floppy-static-back" src={floppyBack} alt="" loading="lazy" />
+            <img className="floppy-static-front" src={floppyFront} alt="" loading="eager" decoding="async" fetchPriority="high" />
+            <img className="floppy-static-back" src={floppyBack} alt="" loading="eager" decoding="async" />
           </span>
           <Suspense fallback={<span className="floppy-loading" aria-hidden="true" />}>
-            {shouldLoadDisk ? <FloppyDisk3D /> : <span className="floppy-loading" aria-hidden="true" />}
+            {shouldLoadDisk ? <FloppyDisk3D onReady={handleDiskReady} /> : <span className="floppy-loading" aria-hidden="true" />}
           </Suspense>
         </a>
 

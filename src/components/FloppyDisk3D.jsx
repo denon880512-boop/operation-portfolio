@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import floppyBack from '../assets/floppy-back.webp';
 import floppyFront from '../assets/floppy-front.webp';
 
-function FloppyDisk3D() {
+function FloppyDisk3D({ onReady }) {
   const mountRef = useRef(null);
 
   useEffect(() => {
@@ -87,6 +87,8 @@ function FloppyDisk3D() {
         camera.updateProjectionMatrix();
       };
 
+      let hasRendered = false;
+
       const animate = (now) => {
         const delta = Math.min(now - last, 50);
         last = now;
@@ -95,6 +97,10 @@ function FloppyDisk3D() {
         }
         disk.rotation.y = rotation;
         renderer.render(scene, camera);
+        if (!hasRendered) {
+          hasRendered = true;
+          onReady?.();
+        }
         frame = requestAnimationFrame(animate);
       };
 
@@ -120,7 +126,7 @@ function FloppyDisk3D() {
       cancelAnimationFrame(frame);
       cleanupScene();
     };
-  }, []);
+  }, [onReady]);
 
   return <span className="floppy-canvas" ref={mountRef} aria-hidden="true" />;
 }

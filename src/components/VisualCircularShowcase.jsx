@@ -8,6 +8,8 @@ import portfolio06 from '../assets/image-portfolio-06.webp';
 
 const CircularGalleryCanvas = lazy(() => import('./CircularGalleryCanvas.jsx'));
 
+const warmCircularGallery = () => import('./CircularGalleryCanvas.jsx');
+
 const fallbackItems = [
   { image: portfolio01, text: 'VISUAL 01' },
   { image: portfolio02, text: 'VISUAL 02' },
@@ -36,6 +38,24 @@ function VisualCircularShowcase() {
   }, []);
 
   useEffect(() => {
+    const preload = () => {
+      fallbackItems.forEach((item) => {
+        const image = new Image();
+        image.src = item.image;
+      });
+      warmCircularGallery();
+    };
+
+    if ('requestIdleCallback' in window) {
+      const idleId = window.requestIdleCallback(preload, { timeout: 2200 });
+      return () => window.cancelIdleCallback(idleId);
+    }
+
+    const timer = window.setTimeout(preload, 900);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
     const node = sectionRef.current;
     if (!node) return undefined;
 
@@ -60,7 +80,7 @@ function VisualCircularShowcase() {
           <div className={`circular-gallery-fallback ${isGalleryReady ? 'is-hidden' : ''}`} aria-hidden="true">
             {fallbackItems.map((item) => (
               <figure key={item.text}>
-                <img src={item.image} alt="" loading="lazy" />
+                <img src={item.image} alt="" loading="eager" decoding="async" fetchPriority="high" />
                 <figcaption>{item.text}</figcaption>
               </figure>
             ))}
@@ -73,7 +93,7 @@ function VisualCircularShowcase() {
           <div className="circular-gallery-mobile-strip" aria-hidden="true">
             {fallbackItems.map((item) => (
               <figure key={`mobile-${item.text}`}>
-                <img src={item.image} alt="" loading="lazy" />
+                <img src={item.image} alt="" loading="eager" decoding="async" />
                 <figcaption>{item.text}</figcaption>
               </figure>
             ))}

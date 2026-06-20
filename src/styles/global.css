@@ -1275,6 +1275,8 @@ footer {
   height: min(548px, 54vw);
   filter: drop-shadow(0 30px 28px rgba(50, 38, 8, 0.26));
   transform: translateY(-18px);
+  opacity: 0;
+  animation: disk-canvas-in 0.28s ease forwards;
 }
 
 .floppy-canvas canvas {
@@ -1297,12 +1299,18 @@ footer {
 .floppy-static-preview {
   position: absolute;
   z-index: 2;
-  display: none;
+  display: block;
   width: min(390px, 39vw);
   aspect-ratio: 0.77;
   transform-style: preserve-3d;
   animation: floppy-static-float 4.8s ease-in-out infinite;
   filter: drop-shadow(0 30px 28px rgba(50, 38, 8, 0.22));
+  transition: opacity 0.24s ease;
+}
+
+.floppy-link.is-disk-ready .floppy-static-preview {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .floppy-static-preview img {
@@ -1865,6 +1873,12 @@ footer {
   50% {
     transform: scale(1.12);
     opacity: 0.34;
+  }
+}
+
+@keyframes disk-canvas-in {
+  to {
+    opacity: 1;
   }
 }
 
