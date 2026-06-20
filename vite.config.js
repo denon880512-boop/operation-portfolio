@@ -2,8 +2,8 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-  base: '/operation-portfolio/',
   plugins: [react()],
+  base: '/operation-portfolio/',
   assetsInclude: ['**/*.glb'],
   server: {
     host: '127.0.0.1',
