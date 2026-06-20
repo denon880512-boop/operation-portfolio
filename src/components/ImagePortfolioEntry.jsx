@@ -1,12 +1,14 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Folder, Image as ImageIcon, Lightbulb, Star } from 'lucide-react';
+import floppyFront from '../assets/floppy-front.webp';
+import floppyBack from '../assets/floppy-back.webp';
 
 const FloppyDisk3D = lazy(() => import('./FloppyDisk3D.jsx'));
 
 function ImagePortfolioEntry() {
   const entryRef = useRef(null);
   const [shouldLoadDisk, setShouldLoadDisk] = useState(false);
-  const imagePortfolioUrl = `${import.meta.env.BASE_URL}image-portfolio`;
+  const imagePortfolioUrl = `${import.meta.env.BASE_URL}#image-portfolio`;
 
   useEffect(() => {
     const node = entryRef.current;
@@ -82,6 +84,10 @@ function ImagePortfolioEntry() {
             <span>Branding</span>
             <span>Posters</span>
             <span>Editorial</span>
+          </span>
+          <span className="floppy-static-preview" aria-hidden="true">
+            <img className="floppy-static-front" src={floppyFront} alt="" loading="lazy" />
+            <img className="floppy-static-back" src={floppyBack} alt="" loading="lazy" />
           </span>
           <Suspense fallback={<span className="floppy-loading" aria-hidden="true" />}>
             {shouldLoadDisk ? <FloppyDisk3D /> : <span className="floppy-loading" aria-hidden="true" />}
