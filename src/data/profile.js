@@ -2,7 +2,7 @@ import avatar from '../assets/avatar.webp';
 import resumeImage from '../assets/resume-about.webp';
 import heroVideo from '../assets/hero-home-video.mp4';
 import heroPoster from '../assets/hero-home-poster.webp';
-import dogVideo from '../assets/ai-dog-video.mp4';
+import dogVideo from '@dog-video';
 import dogVideoPreview from '../assets/ai-dog-video-preview.mp4';
 import dogVideoPoster from '../assets/ai-dog-video-poster.webp';
 import geoPromoVideo from '../assets/ai-geo-promo-video.mp4';
