@@ -13,8 +13,24 @@ import ContactFooter from './components/ContactFooter.jsx';
 import CursorSpot from './components/CursorSpot.jsx';
 import Lightbox from './components/Lightbox.jsx';
 
+function getIsMobileViewport() {
+  return window.matchMedia('(max-width: 900px)').matches;
+}
+
+function MobileBlocker() {
+  return (
+    <main className="mobile-blocker" aria-label="请使用电脑打开作品集">
+      <div>
+        <span>USER OPS PORTFOLIO</span>
+        <h1>请使用电脑打开作品集</h1>
+      </div>
+    </main>
+  );
+}
+
 function App() {
   const [preview, setPreview] = useState(null);
+  const [isMobileViewport, setIsMobileViewport] = useState(getIsMobileViewport);
   const [route, setRoute] = useState(() => ({
     pathname: window.location.pathname,
     hash: window.location.hash,
@@ -22,6 +38,20 @@ function App() {
   const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
   const pagePath = route.pathname.replace(basePath, '') || '/';
   const isImagePortfolioPage = pagePath === '/image-portfolio' || route.hash === '#image-portfolio';
+
+  useEffect(() => {
+    const query = window.matchMedia('(max-width: 900px)');
+    const syncViewport = () => setIsMobileViewport(query.matches);
+    syncViewport();
+
+    if (query.addEventListener) {
+      query.addEventListener('change', syncViewport);
+      return () => query.removeEventListener('change', syncViewport);
+    }
+
+    query.addListener(syncViewport);
+    return () => query.removeListener(syncViewport);
+  }, []);
 
   useEffect(() => {
     const syncRoute = () => {
@@ -40,6 +70,10 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (isMobileViewport) {
+      return undefined;
+    }
+
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
     }
@@ -73,7 +107,11 @@ function App() {
       cancelAnimationFrame(frame);
       lenis.destroy();
     };
-  }, [isImagePortfolioPage]);
+  }, [isImagePortfolioPage, isMobileViewport]);
+
+  if (isMobileViewport) {
+    return <MobileBlocker />;
+  }
 
   return (
     <>
