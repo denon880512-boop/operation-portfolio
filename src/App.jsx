@@ -15,9 +15,32 @@ import Lightbox from './components/Lightbox.jsx';
 
 function App() {
   const [preview, setPreview] = useState(null);
+  const [route, setRoute] = useState(() => ({
+    pathname: window.location.pathname,
+    search: window.location.search,
+    hash: window.location.hash,
+  }));
   const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
-  const pagePath = window.location.pathname.replace(basePath, '') || '/';
-  const isImagePortfolioPage = pagePath === '/image-portfolio' || window.location.hash === '#image-portfolio';
+  const pagePath = route.pathname.replace(basePath, '') || '/';
+  const isImagePortfolioPage = pagePath === '/image-portfolio' || route.hash === '#image-portfolio';
+
+  useEffect(() => {
+    const updateRoute = () => {
+      setRoute({
+        pathname: window.location.pathname,
+        search: window.location.search,
+        hash: window.location.hash,
+      });
+    };
+
+    window.addEventListener('hashchange', updateRoute);
+    window.addEventListener('popstate', updateRoute);
+
+    return () => {
+      window.removeEventListener('hashchange', updateRoute);
+      window.removeEventListener('popstate', updateRoute);
+    };
+  }, []);
 
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
@@ -33,6 +56,11 @@ function App() {
     const scrollToTop = () => {
       if (window.location.hash && !isImagePortfolioPage) {
         window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+        setRoute({
+          pathname: window.location.pathname,
+          search: window.location.search,
+          hash: '',
+        });
       }
       window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       lenis.scrollTo(0, { immediate: true });
